@@ -40,7 +40,6 @@ app.post('/', (req, res)=>{
         let inputUrl = new URL(req.body.url);
         dns.lookup(inputUrl.hostname,{all: true}, async (err, address)=>{
             if(err){
-                res.statusCode = 404;
                 res.json({"error": "URL does not exist on internet"});
             }else{
                 try{
