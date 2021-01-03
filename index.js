@@ -79,12 +79,17 @@ app.get('/:short_url',async (req, res)=>{
         await client.connect();
 
         let doc = await client.db('url_shortner').collection('url').findOne({short: req.params.short_url});
-        doc.clicks++;
         console.log(doc);
-        await client.db('url_shortner').collection('url').updateOne({short: req.params.short_url}, {$set: {clicks : doc.clicks}});
+        let updateOutput = await client.db('url_shortner').collection('url').updateOne({short: req.params.short_url}, {$set: {clicks : doc.clicks+1}});
+
+        if(updateOutput.result.nModified === 1){
+            res.redirect(301, doc.url);
+        }
+        else{
+            res.statusCode = 500;
+            res.json({"error" : "clicks not modified"});
+        }
         //await client.close();
-        
-        res.redirect(301, doc.url);
 
     }catch(err){
         res.statusCode = 500;
