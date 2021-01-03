@@ -3,7 +3,9 @@ const bodyParser = require('body-parser');
 const shortid = require('shortid');
 const dns = require('dns');
 const { MongoClient } = require('mongodb');
-require('dotenv').config();
+
+if(process.env.NODE_ENV !== "production")
+    require('dotenv').config();
 
 const client = new MongoClient(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true });
 
