@@ -3,6 +3,9 @@ const bodyParser = require('body-parser');
 const shortid = require('shortid');
 const dns = require('dns');
 const { MongoClient } = require('mongodb');
+const cors = require('cors');
+
+
 
 if(process.env.NODE_ENV !== "production")
     require('dotenv').config();
@@ -11,6 +14,7 @@ const client = new MongoClient(process.env.MONGO_URL, { useNewUrlParser: true, u
 
 const app = express();
 
+app.use(cors());
 
 app.use(bodyParser.urlencoded({extended:true}))
 
